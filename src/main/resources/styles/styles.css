@@ -1,0 +1,64 @@
+/* Application wide styles */
+
+.label {
+    -fx-font-size: 12px;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.buttonold {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button {
+    -fx-background-color:
+        rgba(0,0,0,0.08),
+        linear-gradient(#9a9a9a, #909090),
+        linear-gradient(white 0%, #f3f3f3 50%, #ececec 51%, #f2f2f2 100%);
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-background-radius: 5,5,4;
+    /*-fx-padding: 3 30 3 30;*/
+    -fx-text-fill: #242d35;
+    /*-fx-font-size: 14px;*/
+}
+
+.button.iniciar {
+    -fx-background-color:
+        rgba(0,0,0,0.08),
+        linear-gradient(#9a9a9a, #909090),
+        linear-gradient(whitesmoke 0%, yellowgreen 100%);
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-background-radius: 5,5,4;
+    /*-fx-padding: 3 30 3 30;*/
+    -fx-text-fill: #242d35;
+    /*-fx-font-size: 14px;*/
+}
+
+.button:hover{
+    -fx-background-color:
+        rgba(0,0,0,0.08),
+        linear-gradient(#9a9a9a, #909090),
+        linear-gradient(#aaaaaa 0%, #e7e7e7 100%);
+}
+
+/* Component specific styles */
+
+
+.main-panel {
+    /*-fx-background-image: url("../images/background.jpg");*/
+}
+
+.hello-message {
+    -fx-text-fill: #AA0000;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.label.num-ficheros {
+    -fx-font-style: italic;
+}
