@@ -1,2 +1,2 @@
 # excel-search
-Finds text in Excel (xlsx) files, shows a reports with the results and in future I hope can make replacements
+Helps to find texts in Excel spreadsheets cells. It shows a report with the findings and colours the cells, so use a copy of them to execute the program.
