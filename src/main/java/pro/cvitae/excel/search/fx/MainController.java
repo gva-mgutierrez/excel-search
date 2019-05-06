@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,21 +25,30 @@ public class MainController extends GenericController {
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     @FXML
-    public Button btnSelCarpetaExcel;
+    private TextField folderPathInput;
 
     @FXML
-    public TextField folderPathInput;
+    private Label labelContadorExcel;
 
     @FXML
-    public Label labelContadorExcel;
+    private ProgressIndicator progressIndicator;
 
     @FXML
-    public ProgressIndicator progressIndicator;
+    private TextArea statusTextArea;
 
     @FXML
-    public TextArea statusTextArea;
+    private Button startButton;
+    
+    @FXML
+    private TextArea searchTextArea;
+    
+    @FXML
+    private ImageView image;
+    
+    @FXML
+    private AnchorPane imagePane;
 
-    List<File> currentFileList = null;
+    private List<File> currentFileList = null;
 
     @FXML
     public void selectFolderModal(ActionEvent event) {
@@ -48,8 +61,10 @@ public class MainController extends GenericController {
     }
 
     @FXML
-    public void test(ActionEvent event) {
-        ExcelSearchService service = new ExcelSearchService();
+    public void launchAction(ActionEvent event) {
+        startButton.setVisible(false);
+        progressIndicator.setVisible(true);
+        ExcelSearchService service = new ExcelSearchService(this.currentFileList);
         service.restart();
         progressIndicator.progressProperty().bind(service.progressProperty());
         statusTextArea.textProperty().bind(service.messageProperty());
@@ -71,7 +86,8 @@ public class MainController extends GenericController {
                 this.labelContadorExcel.setText(size + " ficheros detectados");
                 break;
         }
-
+        
+        this.checkActivateButton();
     }
 
     public List<File> getAllExcelFiles(File folder) {
@@ -84,9 +100,6 @@ public class MainController extends GenericController {
                 }
             }
         }
-
-        progressIndicator.setProgress(33.33);
-
         return result;
     }
 
@@ -94,5 +107,26 @@ public class MainController extends GenericController {
         return Optional.ofNullable(filename)
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+    
+    private void checkActivateButton(){
+        if(searchTextArea.getText().trim().equals("") || folderPathInput.getText().trim().equals("")
+                || (this.currentFileList == null || this.currentFileList.isEmpty())){
+            this.startButton.setDisable(true);
+        } else {
+            this.startButton.setDisable(false);
+        }
+            
+    }
+    
+    @Override
+    public void afterInitialization(){
+        this.searchTextArea.textProperty().addListener((observable) ->{ checkActivateButton(); });
+        // this is fired before currentFileList is set
+        //this.folderPathInput.textProperty().addListener((observable) ->{ checkActivateButton(); });
+        
+        this.image.fitHeightProperty().bind(this.imagePane.heightProperty());
+        this.image.fitWidthProperty().bind(this.imagePane.widthProperty());
+        this.image.setImage(new Image("https://source.unsplash.com/1600x900/?nature,water"));
     }
 }

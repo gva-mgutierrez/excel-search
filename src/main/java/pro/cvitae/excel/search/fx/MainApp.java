@@ -27,10 +27,10 @@ public class MainApp extends Application {
         Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
 
         log.debug("Showing JFX scene");
-        Scene scene = new Scene(rootNode, 1024, 800);
+        Scene scene = new Scene(rootNode, 1010, 650);
         scene.getStylesheets().add("/styles/styles.css");
 
-        stage.setTitle("Hello JavaFX and Maven");
+        stage.setTitle("KalkuBila");
         stage.initStyle(StageStyle.DECORATED);
         stage.setScene(scene);
         stage.show();

@@ -16,6 +16,7 @@
 }
 
 .button {
+    -fx-cursor: hand;
     -fx-background-color:
         rgba(0,0,0,0.08),
         linear-gradient(#9a9a9a, #909090),
@@ -25,6 +26,11 @@
     /*-fx-padding: 3 30 3 30;*/
     -fx-text-fill: #242d35;
     /*-fx-font-size: 14px;*/
+}
+
+.button.file-select {
+    -fx-border-radius: 0 4 4 0;
+    -fx-background-radius: 0 4 4 0;
 }
 
 .button.iniciar {
@@ -46,9 +52,14 @@
         linear-gradient(#aaaaaa 0%, #e7e7e7 100%);
 }
 
+.button.iniciar:hover {
+    -fx-background-color:
+        rgba(0,0,0,0.08),
+        linear-gradient(#9a9a9a, #909090),
+        linear-gradient(cadetblue 0%, yellowgreen 100%);
+}
+
 /* Component specific styles */
-
-
 .main-panel {
     /*-fx-background-image: url("../images/background.jpg");*/
 }
