@@ -27,7 +27,7 @@ public class MainApp extends Application {
         Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
 
         log.debug("Showing JFX scene");
-        Scene scene = new Scene(rootNode, 1010, 650);
+        Scene scene = new Scene(rootNode, 1010, 670);
         scene.getStylesheets().add("/styles/styles.css");
 
         stage.setTitle("KalkuBila");
@@ -38,7 +38,5 @@ public class MainApp extends Application {
         final GenericController controller = loader.getController();
         controller.setStage(stage);
         controller.afterInitialization();        
-        
-        
     }
 }

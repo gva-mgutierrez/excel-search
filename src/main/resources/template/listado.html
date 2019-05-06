@@ -1,0 +1,63 @@
+<!doctype html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	
+    <title>Resultado exportación</title>
+    <style>
+	  body {
+        font-family: 'Roboto', sans-serif;
+      }
+	  h1 {
+		font-family: 'Open Sans', sans-serif;
+	  }
+	  tbody tr:nth-child(odd) {
+		background-color: honeydew;
+	  }
+	  
+	  table {
+	    width: 95%;
+	    margin:auto;
+	    margin-left:auto;
+	    margin-right:auto;
+		border-collapse: collapse;
+	  }
+	  tr {
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        border-collapse: collapse;
+	  }
+	</style>
+  </head>
+  <body>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+	    <h1>Resultados ejecución ##DATE##</h1>
+	  </div>
+	  
+	  <div class="mdl-cell mdl-cell--12-col">
+	    <!--<table class="mdl-data-table mdl-js-data-table" style="width:100%">-->
+		<table>
+		  <thead>
+		    <tr>
+              <th width=" class="mdl-data-table__cell--non-numeric">Fichero</th>
+              <th class="mdl-data-table__cell--non-numeric">Hoja</th>
+              <th class="mdl-data-table__cell--non-numeric">Celda</th>
+              <th class="mdl-data-table__cell--non-numeric">Texto</th>
+			  <th class="mdl-data-table__cell--non-numeric">Contenido celda</th>
+            </tr>
+		  </thead>
+		  <tbody>
+
+			##TABLE_BODY##
+
+		  </tbody>
+		</table>
+	  </div>
+  </body>
+</html>

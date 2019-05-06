@@ -41,9 +41,13 @@ import pro.cvitae.excel.search.fx.utils.excel.TextLocation;
 public class ExcelSearchService extends Service<Double> {
 
     private final List<File> currentFileList;
+    private final String resultsPath;
+    private final String[] lines;
 
-    public ExcelSearchService(List<File> currentFileList) {
+    public ExcelSearchService(String[] lines, List<File> currentFileList, String resultsPath) {
         this.currentFileList = currentFileList;
+        this.resultsPath = resultsPath;
+        this.lines = lines;
     }
 
     @Override
@@ -64,14 +68,18 @@ public class ExcelSearchService extends Service<Double> {
 
                 List<TextLocation> allLocations = new ArrayList<>();
                 for (File excel : currentFileList) {
-                    resultBuilder.insert(0, "Leyendo fichero " + excel.getName());
+                    resultBuilder.insert(0, "Leyendo fichero " + excel.getName() + "\n");
                     this.updateMessage(resultBuilder.toString());
                     
-                    allLocations.addAll(processWorkbook(excel));
+                    List<TextLocation> texts = processWorkbook(excel, lines);
+                    allLocations.addAll(texts);
+                    
                     this.updateProgress(++done, totalFiles);
+                    resultBuilder.insert(0, " -- Ocurrencias: " + texts.size() + "\n");
+                    this.updateMessage(resultBuilder.toString());
                 }
 
-                resultBuilder.insert(0, "Generando fichero de resultados");
+                resultBuilder.insert(0, "Generando fichero de resultados\n");
                 this.updateMessage(resultBuilder.toString());
                 
                 StringBuilder sb = new StringBuilder();
@@ -86,7 +94,7 @@ public class ExcelSearchService extends Service<Double> {
                 }
 
                 String template;
-                try (InputStream is = this.getClass().getResourceAsStream("/listado.html")) {
+                try (InputStream is = this.getClass().getResourceAsStream("/template/listado.html")) {
                     try (BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")))) {
                         template = br.lines().collect(Collectors.joining(System.lineSeparator()));
                     }
@@ -96,19 +104,22 @@ public class ExcelSearchService extends Service<Double> {
                 }
 
                 String resultFileName = (new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date())) + ".html";
-                try (FileOutputStream fos = new FileOutputStream(new File(resultFileName))) {
+                String resultUri = resultsPath + "\\" + resultFileName;
+                try (FileOutputStream fos = new FileOutputStream(new File(resultUri))) {
                     fos.write(template.getBytes("UTF-8"));
                 }
 
+                this.updateProgress(++done, totalFiles);
+                
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                    Desktop.getDesktop().browse(new File(resultFileName).toURI());
+                    Desktop.getDesktop().browse(new File(resultUri).toURI());
                 }
                 return 0d;
             }
         };
     }
 
-    public List<TextLocation> processWorkbook(File file) throws IOException {
+    public List<TextLocation> processWorkbook(File file, String[] lines) throws IOException {
         List<TextLocation> results = new ArrayList<>();
         try (Workbook wb = getWorkbook(file)) {
             CellStyle style = wb.createCellStyle();
@@ -123,7 +134,7 @@ public class ExcelSearchService extends Service<Double> {
                     for (Cell cell : row) {
                         if (cell.getCellType().equals(CellType.STRING)) {
                             String cellText = cell.getRichStringCellValue().getString().trim();
-                            for (String text2Search : TEXTS) {
+                            for (String text2Search : lines) {
                                 if (StringUtils.containsIgnoreCase(cellText, text2Search)) {
                                     TextLocation tl = new TextLocation(file, text2Search, cellText, sheet.getSheetName(),
                                             cell.getColumnIndex(), cell.getRowIndex());
@@ -152,11 +163,4 @@ public class ExcelSearchService extends Service<Double> {
         FileInputStream excelFile = new FileInputStream(file);
         return new XSSFWorkbook(excelFile);
     }
-
-    public String[] TEXTS = new String[]{
-        "Consentimiento",
-        "Interesado",
-        "Recursos humanos",
-        "Fichero",
-        "El personal"};
 }

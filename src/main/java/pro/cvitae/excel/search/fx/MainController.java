@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,6 +45,9 @@ public class MainController extends GenericController {
     private ImageView image;
     
     @FXML
+    private Label waitingLabel;
+    
+    @FXML
     private AnchorPane imagePane;
 
     private List<File> currentFileList = null;
@@ -64,7 +66,15 @@ public class MainController extends GenericController {
     public void launchAction(ActionEvent event) {
         startButton.setVisible(false);
         progressIndicator.setVisible(true);
-        ExcelSearchService service = new ExcelSearchService(this.currentFileList);
+        waitingLabel.setVisible(true);
+        
+        int width = (int)this.image.getBoundsInLocal().getWidth();
+        int height = (int)this.image.getBoundsInLocal().getHeight();
+        
+        this.image.setImage(new Image("https://source.unsplash.com/" + width + "x" + height + "/?river"));
+        image.setVisible(true);
+        
+        ExcelSearchService service = new ExcelSearchService(getLinesToSearch(), this.currentFileList, this.folderPathInput.getText());
         service.restart();
         progressIndicator.progressProperty().bind(service.progressProperty());
         statusTextArea.textProperty().bind(service.messageProperty());
@@ -116,7 +126,6 @@ public class MainController extends GenericController {
         } else {
             this.startButton.setDisable(false);
         }
-            
     }
     
     @Override
@@ -127,6 +136,9 @@ public class MainController extends GenericController {
         
         this.image.fitHeightProperty().bind(this.imagePane.heightProperty());
         this.image.fitWidthProperty().bind(this.imagePane.widthProperty());
-        this.image.setImage(new Image("https://source.unsplash.com/1600x900/?nature,water"));
+    }
+    
+    private String[] getLinesToSearch(){
+        return this.searchTextArea.getText().split("\\r?\\n");
     }
 }

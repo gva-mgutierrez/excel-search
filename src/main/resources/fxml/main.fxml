@@ -72,7 +72,7 @@
                         <Label fx:id="labelContadorExcel" layoutX="14.0" layoutY="70.0" prefHeight="25.0" prefWidth="292.0" styleClass="num-ficheros" />
                         <TextField fx:id="folderPathInput" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="441.0" />
                         <Button fx:id="startButton" defaultButton="true" disable="true" layoutX="450.0" layoutY="107.0" mnemonicParsing="false" onAction="#launchAction" prefHeight="169.0" prefWidth="76.0" styleClass="iniciar" text="INICIAR" />
-                        <ProgressIndicator fx:id="progressIndicator" layoutX="-143.0" layoutY="144.0" prefHeight="94.0" prefWidth="1024.0" progress="0.0" visible="false" />
+                        <ProgressIndicator fx:id="progressIndicator" layoutX="452.0" layoutY="142.0" prefHeight="100.0" prefWidth="70.0" progress="0.0" visible="false" />
                         <Button fx:id="btnSelCarpetaExcel" layoutX="450.0" layoutY="43.0" mnemonicParsing="false" onAction="#selectFolderModal" prefHeight="27.0" prefWidth="76.0" styleClass="file-select" text="Seleccionar" />
                         <TextArea fx:id="statusTextArea" editable="false" layoutX="14.0" layoutY="104.0" prefHeight="187.0" prefWidth="428.0" wrapText="true" />
                      </children>
@@ -83,14 +83,14 @@
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label text="For the waiting">
+            <Label fx:id="waitingLabel" text="For the waiting" visible="false">
                <padding>
                   <Insets left="10.0" top="10.0" />
                </padding>
             </Label>
             <AnchorPane fx:id="imagePane" VBox.vgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" />
+                  <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" visible="false" />
                </children>
             </AnchorPane>
          </children>
